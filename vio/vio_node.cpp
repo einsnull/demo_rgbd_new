@@ -282,6 +282,9 @@ void process()
 	    sum_vo_t += whole_t; 
 	    ROS_WARN("vio_node.cpp: average vo cost %f ms", sum_vo_t/(++sum_vo_cnt));
 
+        static ofstream ouf("demo_rgbd_time.log"); 
+        ouf<<whole_t<<endl; 
+
         publishMsg(img_msg); 
 	    ros::spinOnce();
         static ofstream process_time_log("process_time.log"); 

@@ -8,6 +8,7 @@
 #include <cv_bridge/cv_bridge.h>
 #include "feature_tracker.h"
 #include "../utility/pointDefinition.h"
+#include "../utility/tic_toc.h"
 
 CTrackerParam track_param;
 CFeatureTracker feat_tracker(track_param); 
@@ -60,8 +61,16 @@ void imgCallback(const sensor_msgs::Image::ConstPtr& _img)
 
     cv::Mat img_mono = ptr->image; 
     double img_time = _img->header.stamp.toSec(); 
+    TicToc t_s;
+    static double sum_ft_t = 0; 
+    static int sum_ft_cnt = 0; 
     if(feat_tracker.handleImage(img_mono, img_time))
     {
+    	double whole_t = t_s.toc();
+	 	ROS_WARN("feature_track_node.cpp: feature track cost %f ms", whole_t); 
+	    sum_ft_t += whole_t; 
+	    ROS_WARN("feature_track_node.cpp: average feature track cost %f ms", sum_ft_t/(++sum_ft_cnt));
+
 	// publish msg 
 	pcl::PointCloud<ImagePoint>::Ptr imagePointsLast(new pcl::PointCloud<ImagePoint>());
 	imagePointsLast->points.resize(feat_tracker.mvPreImagePts.size()); 

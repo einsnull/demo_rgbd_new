@@ -9,7 +9,8 @@
 </node> 
 
 <node pkg="demo_rgbd_new" type="read_traj" name="read_traj" output="screen">
-    <param name="data_file" type="string" value="$(find demo_rgbd_new)/result/elevator_candidate1.log"/>
+    <param name="data_file" type="string" value="$(find demo_rgbd_new)/result/elevator/candidate4.log"/> <!--elevator_candidate1.log -->
+    <!--param name="data_file" type="string" value="/home/hzhang8/work/ros/kinetic/src/vslam_node/result/robocane/vins-mono-rs/elevator/candidate3.log"/--> 
 </node>
 
 </launch>
